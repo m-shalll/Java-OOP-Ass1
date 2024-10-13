@@ -2,6 +2,9 @@ package com.mycompany.assignment1;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class Lab2_p4 {
     public static void main(String args[]) throws IOException{
@@ -9,12 +12,20 @@ public class Lab2_p4 {
         System.out.print("Enter the file name: ");
         String fileName= scan.nextLine();
         Invoice[] invoices;
-        invoices =readInvoiceDetailsFromFile("textfile.txt");
-        for (Invoice invoice : invoices) {
-                invoice.report();
-       
-    }
-    }
+        ArrayList<Integer> list=new ArrayList<>();
+        invoices =readInvoiceDetailsFromFile(fileName);
+        Arrays.sort(invoices, new Comparator<Invoice>(){
+            @Override
+            public int compare(Invoice a, Invoice b) {
+                return Double.compare(b.calculateInvoice(), a.calculateInvoice());
+                }
+        });
+        for(Invoice invoice:invoices)
+        {
+            invoice.report();
+        }
+      }
+   
     public static Invoice[] readInvoiceDetailsFromFile(String fileName) throws IOException{
         File file=new File(fileName);
         Invoice[] result;
